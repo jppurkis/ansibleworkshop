@@ -1,0 +1,20 @@
+- hosts: localhost # Used to indicate our playbook will run locally on our dev workstation
+  connection: local # Specify that we want to use a local connection, not SSH on WinRM 
+  gather_facts: no # turn off fact gathering for this playbook to increase performance
+  vars:
+    location: eastus2
+    rg_name: ansible_workshop_lod9139210
+    debug: False # this will be used to control output from our playbook
+    vms:
+      azvote_vms:
+        azvote1:
+          nic: azvote1-nic
+          avset: azvote-avset
+          pip: azvote1-pip
+
+  tasks: # Our list of plays to execute
+  - name: Create workshop resource group
+    azure_rm_resourcegroup:
+      name: "{{ rg_name }}"
+      location: "{{ location }}"
+      state: present
